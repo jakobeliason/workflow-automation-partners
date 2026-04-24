@@ -62,9 +62,15 @@
 <!-- Hero -->
 <section class="grid-bg">
   <div class="max-w-6xl mx-auto px-5 pt-8 pb-16 md:pt-20 md:pb-24">
-    <div class="grid lg:grid-cols-[1.05fr,1fr] gap-8 lg:gap-14 items-center">
-      <!-- Left: copy (on mobile, appears below video) -->
-      <div class="order-2 lg:order-1">
+    <!--
+      Hero layout:
+      - Mobile: badge → headline → subhead → VIDEO → CTAs → caption
+      - Desktop: 2 columns. Left col stacks headline (row 1) + CTAs (row 2).
+                 Right col has video spanning both rows, vertically centered.
+    -->
+    <div class="lg:grid lg:grid-cols-[1.05fr,1fr] lg:gap-x-14 lg:gap-y-0 lg:items-center">
+      <!-- Top copy: badge + headline + subhead -->
+      <div class="lg:col-start-1 lg:row-start-1">
         <span class="inline-flex items-center gap-2 rounded-full bg-brand/10 text-brand border border-brand/30 text-xs font-semibold px-3 py-1">
           <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
           Southeast USA · Intelligent Automation for Service Businesses
@@ -75,27 +81,15 @@
         <p class="mt-6 text-lg text-white/70 leading-relaxed">
           We help service businesses eliminate manual work with intelligent automation — workflows, AI, and custom apps built for how your team actually operates. One partner. Measurable ROI. <span class="font-semibold text-white">90-day results guarantee.</span>
         </p>
-        <div class="mt-8 flex flex-col sm:flex-row gap-3">
-          <a href="#contact" class="inline-flex justify-center items-center rounded-lg bg-brand text-ink font-semibold px-6 py-3.5 hover:bg-accent transition">
-            Book a free intro call
-          </a>
-          <a href="#results" class="inline-flex justify-center items-center rounded-lg border border-white/20 text-white font-semibold px-6 py-3.5 hover:border-brand hover:text-brand transition">
-            See real results →
-          </a>
-        </div>
-        <p class="mt-4 text-sm text-white/60 flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span class="inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>90-day results guarantee</span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>No pitch · no boilerplate quote</span>
-        </p>
       </div>
 
-      <!-- Right: VSL -->
       <!--
-        VSL — self-hosted. On mobile, appears first (above the copy) to keep it above the fold.
-        Swap to Vimeo/Wistia later by replacing the <video> element with an <iframe>.
-        Video file: vsl.mp4 · Poster: vsl-poster.jpg
+        VSL — self-hosted.
+        Mobile: appears between subhead and CTAs.
+        Desktop: spans both rows in the right column, vertically centered.
+        Video: vsl.mp4 · Poster: vsl-poster.jpg
       -->
-      <div class="relative order-1 lg:order-2">
+      <div class="relative my-8 lg:my-0 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-center">
         <div id="vsl-container" class="aspect-video rounded-2xl overflow-hidden border-2 border-brand/30 shadow-brutal-accent bg-ink relative group">
           <video
             id="vsl-video"
@@ -107,7 +101,6 @@
             <source src="vsl.mp4" type="video/mp4" />
             Your browser doesn't support HTML5 video.
           </video>
-          <!-- Play button overlay (hides when playing) -->
           <button
             type="button"
             id="vsl-play"
@@ -120,14 +113,28 @@
               </svg>
             </div>
           </button>
-          <!-- Caption overlay (hides when playing) -->
           <div id="vsl-caption" class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-ink via-ink/80 to-transparent pointer-events-none transition-opacity">
             <p class="font-mono text-[10px] text-brand uppercase tracking-widest">▶ Watch · 8 min</p>
             <p class="text-white text-sm md:text-base font-semibold mt-1">How we save service businesses 25+ hours a week</p>
           </div>
-          <!-- Subtle gold accent corner -->
           <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand/20 to-transparent pointer-events-none"></div>
         </div>
+      </div>
+
+      <!-- Bottom copy: CTAs + caption -->
+      <div class="lg:col-start-1 lg:row-start-2 lg:mt-6">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="#contact" class="inline-flex justify-center items-center rounded-lg bg-brand text-ink font-semibold px-6 py-3.5 hover:bg-accent transition">
+            Book a free intro call
+          </a>
+          <a href="#results" class="inline-flex justify-center items-center rounded-lg border border-white/20 text-white font-semibold px-6 py-3.5 hover:border-brand hover:text-brand transition">
+            See real results →
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-white/60 flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span class="inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>90-day results guarantee</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>No pitch · no boilerplate quote</span>
+        </p>
       </div>
     </div>
   </div>
