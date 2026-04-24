@@ -61,10 +61,10 @@
 
 <!-- Hero -->
 <section class="grid-bg">
-  <div class="max-w-6xl mx-auto px-5 pt-16 pb-20 md:pt-20 md:pb-24">
-    <div class="grid lg:grid-cols-[1.05fr,1fr] gap-10 lg:gap-14 items-center">
-      <!-- Left: copy -->
-      <div>
+  <div class="max-w-6xl mx-auto px-5 pt-8 pb-16 md:pt-20 md:pb-24">
+    <div class="grid lg:grid-cols-[1.05fr,1fr] gap-8 lg:gap-14 items-center">
+      <!-- Left: copy (on mobile, appears below video) -->
+      <div class="order-2 lg:order-1">
         <span class="inline-flex items-center gap-2 rounded-full bg-brand/10 text-brand border border-brand/30 text-xs font-semibold px-3 py-1">
           <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
           Southeast USA · Intelligent Automation for Service Businesses
@@ -91,11 +91,11 @@
 
       <!-- Right: VSL -->
       <!--
-        VSL — self-hosted.
+        VSL — self-hosted. On mobile, appears first (above the copy) to keep it above the fold.
         Swap to Vimeo/Wistia later by replacing the <video> element with an <iframe>.
         Video file: vsl.mp4 · Poster: vsl-poster.jpg
       -->
-      <div class="relative">
+      <div class="relative order-1 lg:order-2">
         <div id="vsl-container" class="aspect-video rounded-2xl overflow-hidden border-2 border-brand/30 shadow-brutal-accent bg-ink relative group">
           <video
             id="vsl-video"
