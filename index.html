@@ -91,39 +91,38 @@
 
       <!-- Right: VSL -->
       <!--
-        VSL EMBED SLOT
-        Replace the placeholder below with your real video embed:
-
-        YouTube:
-          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0&modestbranding=1"
-                  title="Watch our intro"
-                  class="absolute inset-0 w-full h-full"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-
-        Vimeo:
-          <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID"
-                  class="absolute inset-0 w-full h-full"
-                  frameborder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowfullscreen></iframe>
-
-        Wistia: see https://wistia.com/support/embed-and-share
+        VSL — self-hosted.
+        Swap to Vimeo/Wistia later by replacing the <video> element with an <iframe>.
+        Video file: vsl.mp4 · Poster: vsl-poster.jpg
       -->
       <div class="relative">
-        <div class="aspect-video rounded-2xl overflow-hidden border-2 border-brand/30 shadow-brutal-accent bg-gradient-to-br from-ink2 to-ink relative group cursor-pointer">
-          <!-- Play button overlay -->
-          <div class="absolute inset-0 flex items-center justify-center">
+        <div id="vsl-container" class="aspect-video rounded-2xl overflow-hidden border-2 border-brand/30 shadow-brutal-accent bg-ink relative group">
+          <video
+            id="vsl-video"
+            class="w-full h-full object-cover block"
+            poster="vsl-poster.jpg"
+            preload="none"
+            playsinline
+          >
+            <source src="vsl.mp4" type="video/mp4" />
+            Your browser doesn't support HTML5 video.
+          </video>
+          <!-- Play button overlay (hides when playing) -->
+          <button
+            type="button"
+            id="vsl-play"
+            aria-label="Play video"
+            class="absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity"
+          >
             <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-brand flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
               <svg class="w-8 h-8 md:w-10 md:h-10 text-ink ml-1" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
+                <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-          </div>
-          <!-- Caption overlay -->
-          <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-ink via-ink/80 to-transparent">
-            <p class="font-mono text-[10px] text-brand uppercase tracking-widest">▶ Watch · 2 min</p>
+          </button>
+          <!-- Caption overlay (hides when playing) -->
+          <div id="vsl-caption" class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-ink via-ink/80 to-transparent pointer-events-none transition-opacity">
+            <p class="font-mono text-[10px] text-brand uppercase tracking-widest">▶ Watch · 8 min</p>
             <p class="text-white text-sm md:text-base font-semibold mt-1">How we save service businesses 25+ hours a week</p>
           </div>
           <!-- Subtle gold accent corner -->
@@ -600,6 +599,25 @@
 
 <!-- Calendly widget script (loads async, required for inline embed) -->
 <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<!-- VSL play handler: swap poster + custom play button for native video controls on click -->
+<script>
+  (function () {
+    var video = document.getElementById('vsl-video');
+    var playBtn = document.getElementById('vsl-play');
+    var caption = document.getElementById('vsl-caption');
+    if (!video || !playBtn) return;
+    playBtn.addEventListener('click', function () {
+      playBtn.style.display = 'none';
+      if (caption) caption.style.display = 'none';
+      video.controls = true;
+      video.play();
+    });
+    video.addEventListener('pause', function () {
+      // Show native controls; don't bring back the custom overlay.
+    });
+  })();
+</script>
 
 </body>
 </html>

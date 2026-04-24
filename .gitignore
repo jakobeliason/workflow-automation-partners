@@ -4,3 +4,8 @@ node_modules
 *.log
 .env
 .env.local
+
+# Raw video exports — compress to vsl.mp4 before committing
+riverside_*.mp4
+*.mov
+*_raw.mp4
