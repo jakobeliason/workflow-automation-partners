@@ -110,8 +110,38 @@
   .hairline { border-color: var(--rule-faint); }
   .hairline-gold { border-color: var(--rule); }
 
-  /* VSL play bar — bottom strip so the poster headline stays fully readable */
-  .group:hover .vsl-play-bar { background: var(--gold-pale); }
+  /* VSL center play button — Vimeo-style translucent overlay */
+  .vsl-center-play {
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .vsl-center-play::after {
+    content: "";
+    border-style: solid;
+    border-width: 9px 0 9px 14px;
+    border-color: transparent transparent transparent var(--ink);
+    margin-left: 4px;
+  }
+  .group:hover .vsl-center-play {
+    background: var(--gold);
+    transform: scale(1.06);
+  }
+  .group:hover .vsl-center-play::after {
+    border-left-color: var(--bg);
+  }
+  @media (min-width: 768px) {
+    .vsl-center-play { width: 76px; height: 76px; }
+    .vsl-center-play::after { border-width: 11px 0 11px 17px; }
+  }
 
   /* Hero radial vignette (warm gold glow) */
   .hero-vignette {
@@ -202,8 +232,9 @@
                  Right col has video spanning both rows, vertically centered.
     -->
     <div class="lg:grid lg:grid-cols-[1.05fr,1fr] lg:gap-x-14 lg:gap-y-0 lg:items-center">
-      <!-- Top copy: headline + subhead -->
+      <!-- Top copy: kicker + headline + subhead -->
       <div class="lg:col-start-1 lg:row-start-1">
+        <p class="eyebrow mb-3 md:mb-4">For service businesses · Nationwide</p>
         <h1 class="text-[2.25rem] leading-[0.95] md:text-6xl lg:text-7xl">
           Give your team back <span class="text-gold">25+ hours a week</span> with intelligent automation.
         </h1>
@@ -230,19 +261,27 @@
             <source src="vsl.mp4" type="video/mp4" />
             Your browser doesn't support HTML5 video.
           </video>
-          <!-- Play bar at the bottom — keeps the full poster readable. Click anywhere on the video to play. -->
+          <!-- Vimeo-style overlay: subtle center play button + thin bottom progress bar. Click anywhere to play. -->
           <button
             type="button"
             id="vsl-play"
             aria-label="Play video"
             class="absolute inset-0 cursor-pointer transition-opacity"
           >
-            <span class="vsl-play-bar absolute bottom-0 left-0 right-0 h-12 md:h-14 bg-gold flex items-center px-4 md:px-5 transition-colors">
-              <svg class="w-4 h-4 md:w-5 md:h-5 text-ink shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              <span class="ml-3 font-display font-black uppercase text-xs md:text-sm text-ink tracking-tight">Play the walkthrough</span>
-              <span class="ml-auto font-mono uppercase tracking-widest text-[10px] md:text-xs text-ink/70">8 min</span>
+            <!-- Center play button -->
+            <span class="absolute inset-0 flex items-center justify-center">
+              <span class="vsl-center-play"></span>
+            </span>
+            <!-- Bottom transport bar -->
+            <span class="absolute bottom-0 left-0 right-0 pointer-events-none">
+              <span class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/55 to-transparent"></span>
+              <span class="relative block h-[3px] bg-paper/15">
+                <span class="block h-full w-[8%] bg-gold"></span>
+              </span>
+              <span class="relative flex items-center justify-between px-3 md:px-4 py-2 text-paper">
+                <span class="font-mono text-[10px] md:text-xs">0:00 / 7:54</span>
+                <span class="font-mono text-[10px] md:text-xs text-paper/70 uppercase tracking-widest">HD</span>
+              </span>
             </span>
           </button>
         </div>
