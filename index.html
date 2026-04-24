@@ -261,28 +261,14 @@
             <source src="vsl.mp4" type="video/mp4" />
             Your browser doesn't support HTML5 video.
           </video>
-          <!-- Vimeo-style overlay: subtle center play button + thin bottom progress bar. Click anywhere to play. -->
+          <!-- Transparent center play button only — keeps full poster readable. Click anywhere to play. -->
           <button
             type="button"
             id="vsl-play"
             aria-label="Play video"
-            class="absolute inset-0 cursor-pointer transition-opacity"
+            class="absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity"
           >
-            <!-- Center play button -->
-            <span class="absolute inset-0 flex items-center justify-center">
-              <span class="vsl-center-play"></span>
-            </span>
-            <!-- Bottom transport bar -->
-            <span class="absolute bottom-0 left-0 right-0 pointer-events-none">
-              <span class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/55 to-transparent"></span>
-              <span class="relative block h-[3px] bg-paper/15">
-                <span class="block h-full w-[8%] bg-gold"></span>
-              </span>
-              <span class="relative flex items-center justify-between px-3 md:px-4 py-2 text-paper">
-                <span class="font-mono text-[10px] md:text-xs">0:00 / 7:54</span>
-                <span class="font-mono text-[10px] md:text-xs text-paper/70 uppercase tracking-widest">HD</span>
-              </span>
-            </span>
+            <span class="vsl-center-play"></span>
           </button>
         </div>
       </div>
