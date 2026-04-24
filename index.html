@@ -7,6 +7,10 @@
 <meta name="description" content="Southeast-based consultancy helping service businesses reduce manual work by 50–80% with intelligent automation. 25+ hours saved per week. 90-day guarantee." />
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
+  // Always start at the top on load — don't let the browser restore the last scroll position.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
+<script>
   // Design system: warm black + warm gold + warm off-white.
   // Archivo (display) / Inter (body) / JetBrains Mono (data).
   tailwind.config = {
