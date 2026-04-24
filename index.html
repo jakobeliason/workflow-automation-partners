@@ -38,6 +38,39 @@
   .shadow-brutal { box-shadow: 6px 6px 0 0 #D4AF37; }
   .shadow-brutal-sm { box-shadow: 4px 4px 0 0 #D4AF37; }
   .shadow-brutal-accent { box-shadow: 6px 6px 0 0 #D4AF37; }
+
+  /* Qualifier form inputs */
+  .qi {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+    padding: 0.625rem 0.75rem;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .qi::placeholder { color: rgba(255,255,255,0.4); }
+  .qi:focus { border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
+  .qi.error { border-color: #f87171; }
+  .qselect { appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23D4AF37'><path d='M5 7l5 6 5-6H5z'/></svg>"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.25rem; }
+  .qbtn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #D4AF37; color: #0A0A0A;
+    font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem;
+    transition: background .15s;
+  }
+  .qbtn-primary:hover { background: #F5DB7A; }
+  .qbtn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .qbtn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem;
+    background: transparent;
+    transition: border-color .15s, color .15s;
+  }
+  .qbtn-secondary:hover { border-color: #D4AF37; color: #D4AF37; }
 </style>
 </head>
 <body class="bg-ink text-white antialiased">
@@ -214,8 +247,8 @@
     </div>
     <div class="p-7 rounded-2xl border-2 border-white/15 bg-white/[0.03] shadow-brutal-sm">
       <div class="font-mono text-xs text-brand">02</div>
-      <h3 class="mt-3 text-xl font-bold tracking-tight">Your team is already too busy.</h3>
-      <p class="mt-3 text-white/70 leading-relaxed text-sm">The people who'd build your automations are the same people doing the manual work that needs automating. They can't step out of the day-to-day long enough to redesign it — and hiring someone to run the project is another full-time job you don't have time for.</p>
+      <h3 class="mt-3 text-xl font-bold tracking-tight">You've been burned by shiny tools before.</h3>
+      <p class="mt-3 text-white/70 leading-relaxed text-sm">You've bought the AI tool. Tried the Zaps. Hired the agency. Six months later, half of it's collecting dust, held together by one person who's since left. Automation without a system behind it just decays into tech debt.</p>
     </div>
     <div class="p-7 rounded-2xl border-2 border-white/15 bg-white/[0.03] shadow-brutal-sm">
       <div class="font-mono text-xs text-brand">03</div>
@@ -471,22 +504,22 @@
     <div class="grid grid-cols-2 gap-4">
       <div class="p-5 rounded-xl border-2 border-white/15 shadow-brutal-sm bg-white/[0.03]">
         <div class="font-mono text-xs text-brand">Sweet Spot</div>
-        <div class="mt-1 text-3xl font-extrabold">$1M–$5M</div>
+        <div class="mt-1 text-xl md:text-2xl lg:text-3xl font-extrabold">$1M–$5M</div>
         <div class="mt-1 text-sm text-white/70">Annual revenue</div>
       </div>
       <div class="p-5 rounded-xl border-2 border-white/15 shadow-brutal-sm bg-white/[0.03]">
         <div class="font-mono text-xs text-brand">Diagnostic</div>
-        <div class="mt-1 text-3xl font-extrabold">4–6 wks</div>
+        <div class="mt-1 text-xl md:text-2xl lg:text-3xl font-extrabold">4–6 wks</div>
         <div class="mt-1 text-sm text-white/70">Depth varies with complexity</div>
       </div>
       <div class="p-5 rounded-xl border-2 border-white/15 shadow-brutal-sm bg-white/[0.03]">
         <div class="font-mono text-xs text-brand">Guarantee</div>
-        <div class="mt-1 text-3xl font-extrabold">90 days</div>
+        <div class="mt-1 text-xl md:text-2xl lg:text-3xl font-extrabold">90 days</div>
         <div class="mt-1 text-sm text-white/70">Hit target or refund</div>
       </div>
       <div class="p-5 rounded-xl border-2 border-white/15 shadow-brutal-sm bg-white/[0.03]">
         <div class="font-mono text-xs text-brand">Coverage</div>
-        <div class="mt-1 text-3xl font-extrabold">Nationwide</div>
+        <div class="mt-1 text-xl md:text-2xl lg:text-3xl font-extrabold">Nationwide</div>
         <div class="mt-1 text-sm text-white/70">On-site when you need us</div>
       </div>
     </div>
@@ -538,22 +571,128 @@
   <div class="max-w-4xl mx-auto px-5 py-20 text-center text-ink">
     <p class="font-mono text-ink/70 text-xs uppercase tracking-widest">Get Started</p>
     <h2 class="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">Ready to save your team 25+ hours a week?</h2>
-    <p class="mt-5 text-ink/80 text-lg max-w-2xl mx-auto">Book a free 30-minute intro call. We'll learn about your business, walk you through how our diagnostic works, and share the top 3 opportunities we see right out of the gate. If it's a fit, we scope a full diagnostic from there.</p>
+    <p class="mt-5 text-ink/80 text-lg max-w-2xl mx-auto">Answer a few quick questions so we come prepared, then pick a time that works. We reply within one business day.</p>
 
-    <!--
-      CALENDLY EMBED
-      Replace YOUR-HANDLE/30min in the data-url below with your actual Calendly link.
-      The URL params apply dark theme + gold primary color.
-      Note: custom colors only render on Calendly paid plans; free plans show default white.
-    -->
-    <div class="mt-10 rounded-2xl overflow-hidden shadow-2xl bg-ink border-2 border-ink/50">
-      <div
-        class="calendly-inline-widget"
-        data-url="https://calendly.com/jakobeliason/chat?background_color=0A0A0A&text_color=FFFFFF&primary_color=D4AF37&hide_event_type_details=1&hide_gdpr_banner=1"
-        style="min-width:320px;height:720px;"
-      ></div>
+    <!-- Multi-step qualifier form -->
+    <div id="qualifier-wrapper" class="mt-10 rounded-2xl bg-ink border-2 border-ink/50 shadow-2xl text-white text-left p-6 md:p-10 max-w-2xl mx-auto">
+      <!-- Progress -->
+      <div class="flex items-center justify-between mb-6">
+        <p id="qualifier-progress" class="font-mono text-[11px] uppercase tracking-widest text-brand">Step 1 of 3</p>
+        <div class="flex gap-1.5">
+          <span data-dot="1" class="w-2 h-2 rounded-full bg-brand transition"></span>
+          <span data-dot="2" class="w-2 h-2 rounded-full bg-white/20 transition"></span>
+          <span data-dot="3" class="w-2 h-2 rounded-full bg-white/20 transition"></span>
+        </div>
+      </div>
+
+      <form id="qualifier-form" novalidate>
+        <!-- Step 1: Basics -->
+        <div data-step="1">
+          <h3 class="text-2xl font-bold tracking-tight">First, the basics.</h3>
+          <p class="mt-2 text-sm text-white/60">So we know who we're meeting with.</p>
+          <div class="mt-6 grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Your name</label>
+              <input required name="name" type="text" class="qi" placeholder="Jane Doe" />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Email</label>
+              <input required name="email" type="email" class="qi" placeholder="jane@acme.com" />
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-semibold mb-1 text-white/90">Company</label>
+              <input required name="company" type="text" class="qi" placeholder="Acme Co." />
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end">
+            <button type="button" data-next class="qbtn-primary">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Business context -->
+        <div data-step="2" class="hidden">
+          <h3 class="text-2xl font-bold tracking-tight">A bit about your business.</h3>
+          <p class="mt-2 text-sm text-white/60">This helps us come prepared to the call.</p>
+          <div class="mt-6 grid gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Annual revenue</label>
+              <select required name="revenue" class="qi qselect">
+                <option value="">Select…</option>
+                <option>&lt; $1M</option>
+                <option>$1M – $5M</option>
+                <option>$5M – $25M</option>
+                <option>$25M+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Industry</label>
+              <select required name="industry" class="qi qselect">
+                <option value="">Select…</option>
+                <option>Professional services (consulting, legal, accounting)</option>
+                <option>Creative / marketing agency</option>
+                <option>Real estate / property management</option>
+                <option>Healthcare / medical / dental</option>
+                <option>Home services (HVAC, electrical, plumbing, etc.)</option>
+                <option>Specialty contractor / construction</option>
+                <option>IT services / MSP</option>
+                <option>Financial services</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Team size</label>
+              <select required name="team_size" class="qi qselect">
+                <option value="">Select…</option>
+                <option>Fewer than 10</option>
+                <option>10 – 50</option>
+                <option>50 – 200</option>
+                <option>200+</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-6 flex justify-between items-center">
+            <button type="button" data-prev class="qbtn-secondary">← Back</button>
+            <button type="button" data-next class="qbtn-primary">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: What they want solved -->
+        <div data-step="3" class="hidden">
+          <h3 class="text-2xl font-bold tracking-tight">What's eating your team's time?</h3>
+          <p class="mt-2 text-sm text-white/60">A sentence or two is plenty.</p>
+          <div class="mt-6 grid gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Where's the time going right now?</label>
+              <textarea required name="pain" rows="3" class="qi" placeholder="Reporting, customer support, proposals, onboarding, data entry — whatever's eating the week."></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">How soon are you looking to fix it?</label>
+              <select required name="timeline" class="qi qselect">
+                <option value="">Select…</option>
+                <option>Ready to start now</option>
+                <option>In the next 1–3 months</option>
+                <option>Just exploring</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-6 flex justify-between items-center">
+            <button type="button" data-prev class="qbtn-secondary">← Back</button>
+            <button type="submit" class="qbtn-primary">Show me a time →</button>
+          </div>
+        </div>
+      </form>
     </div>
-    <p class="mt-4 text-xs text-ink/60">We reply within one business day. Backed by our 90-day results guarantee.</p>
+
+    <!-- Calendly (revealed after form submission) -->
+    <div id="calendly-wrapper" class="hidden mt-10 rounded-2xl overflow-hidden shadow-2xl bg-ink border-2 border-ink/50 max-w-3xl mx-auto">
+      <div class="px-6 py-5 border-b border-white/10 text-left">
+        <p class="font-mono text-[11px] uppercase tracking-widest text-brand">Last step</p>
+        <p class="mt-1 text-white font-semibold">Pick a time that works — the rest is pre-filled.</p>
+      </div>
+      <div id="calendly-embed" class="calendly-inline-widget" data-url="https://calendly.com/jakobeliason/chat?background_color=0A0A0A&text_color=FFFFFF&primary_color=D4AF37&hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:720px;"></div>
+    </div>
+
+    <p class="mt-4 text-xs text-ink/60">Backed by our 90-day results guarantee.</p>
   </div>
 </section>
 
@@ -594,7 +733,7 @@
 <!-- Calendly widget script (loads async, required for inline embed) -->
 <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
-<!-- VSL play handler: swap poster + custom play button for native video controls on click -->
+<!-- VSL play handler -->
 <script>
   (function () {
     var video = document.getElementById('vsl-video');
@@ -607,9 +746,142 @@
       video.controls = true;
       video.play();
     });
-    video.addEventListener('pause', function () {
-      // Show native controls; don't bring back the custom overlay.
+  })();
+</script>
+
+<!-- Multi-step qualifier form → Google Sheets webhook → Calendly reveal -->
+<script>
+  (function () {
+    /*
+     * SETUP
+     * -----
+     * 1. Create a new Google Sheet.
+     * 2. Extensions → Apps Script. Paste the code from google-apps-script.gs.
+     * 3. Deploy → New deployment → Type: Web app → Execute as: Me → Who has access: Anyone.
+     * 4. Copy the web-app URL and paste it below in SHEET_WEBHOOK_URL.
+     */
+    var SHEET_WEBHOOK_URL = ""; // <- paste your Apps Script web-app URL here
+
+    var form = document.getElementById('qualifier-form');
+    if (!form) return;
+    var wrapper = document.getElementById('qualifier-wrapper');
+    var calWrapper = document.getElementById('calendly-wrapper');
+    var calEmbed = document.getElementById('calendly-embed');
+    var progressLabel = document.getElementById('qualifier-progress');
+    var steps = form.querySelectorAll('[data-step]');
+    var dots = document.querySelectorAll('[data-dot]');
+    var totalSteps = steps.length;
+    var current = 1;
+
+    function showStep(n) {
+      current = n;
+      steps.forEach(function (s) {
+        s.classList.toggle('hidden', +s.dataset.step !== n);
+      });
+      if (progressLabel) progressLabel.textContent = 'Step ' + n + ' of ' + totalSteps;
+      dots.forEach(function (d) {
+        var isActive = +d.dataset.dot <= n;
+        d.classList.toggle('bg-brand', isActive);
+        d.classList.toggle('bg-white/20', !isActive);
+      });
+      // Focus the first input of the active step
+      var firstInput = form.querySelector('[data-step="' + n + '"] input, [data-step="' + n + '"] select, [data-step="' + n + '"] textarea');
+      if (firstInput) setTimeout(function () { firstInput.focus(); }, 50);
+    }
+
+    function validateStep(n) {
+      var step = form.querySelector('[data-step="' + n + '"]');
+      var required = step.querySelectorAll('[required]');
+      var ok = true;
+      for (var i = 0; i < required.length; i++) {
+        var f = required[i];
+        var valid = f.value && String(f.value).trim().length > 0;
+        if (f.type === 'email') {
+          valid = valid && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value);
+        }
+        f.classList.toggle('error', !valid);
+        if (!valid && ok) { f.focus(); ok = false; }
+      }
+      return ok;
+    }
+
+    form.addEventListener('click', function (e) {
+      var target = e.target;
+      if (target.matches('[data-next]')) {
+        e.preventDefault();
+        if (validateStep(current) && current < totalSteps) showStep(current + 1);
+      } else if (target.matches('[data-prev]')) {
+        e.preventDefault();
+        if (current > 1) showStep(current - 1);
+      }
     });
+
+    // Clear error style while typing
+    form.addEventListener('input', function (e) {
+      if (e.target.classList.contains('error')) e.target.classList.remove('error');
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!validateStep(current)) return;
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'One sec…'; }
+
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
+      data.submittedAt = new Date().toISOString();
+      data.userAgent = navigator.userAgent;
+      data.referrer = document.referrer || '';
+
+      // Fire-and-forget to Google Sheets (no-cors means we can't read the response, which is fine)
+      if (SHEET_WEBHOOK_URL) {
+        try {
+          fetch(SHEET_WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(data)
+          }).catch(function () { /* ignore */ });
+        } catch (err) { /* ignore */ }
+      } else {
+        console.warn('[qualifier] SHEET_WEBHOOK_URL not set — form submissions are not being saved.');
+      }
+
+      // Reveal Calendly with prefill
+      wrapper.classList.add('hidden');
+      calWrapper.classList.remove('hidden');
+
+      function initCalendly() {
+        if (!window.Calendly || !calEmbed) return false;
+        calEmbed.innerHTML = '';
+        window.Calendly.initInlineWidget({
+          url: calEmbed.getAttribute('data-url'),
+          parentElement: calEmbed,
+          prefill: {
+            name: data.name || '',
+            email: data.email || '',
+            customAnswers: {
+              a1: data.company || '',
+              a2: data.pain || ''
+            }
+          }
+        });
+        return true;
+      }
+
+      if (!initCalendly()) {
+        // Script hasn't loaded yet — retry briefly
+        var tries = 0;
+        var iv = setInterval(function () {
+          tries++;
+          if (initCalendly() || tries > 50) clearInterval(iv);
+        }, 120);
+      }
+
+      calWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    showStep(1);
   })();
 </script>
 
