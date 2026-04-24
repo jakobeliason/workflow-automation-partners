@@ -21,8 +21,10 @@
 
 var HEADERS = [
   'Timestamp',
-  'Name',
+  'First Name',
+  'Last Name',
   'Email',
+  'Phone',
   'Company',
   'Annual Revenue',
   'Industry',
@@ -49,8 +51,10 @@ function doPost(e) {
 
     sheet.appendRow([
       data.submittedAt || new Date().toISOString(),
-      data.name || '',
+      data.first_name || '',
+      data.last_name || '',
       data.email || '',
+      data.phone || '',
       data.company || '',
       data.revenue || '',
       data.industry || '',

@@ -592,16 +592,24 @@
           <p class="mt-2 text-sm text-white/60">So we know who we're meeting with.</p>
           <div class="mt-6 grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-semibold mb-1 text-white/90">Your name</label>
-              <input required name="name" type="text" class="qi" placeholder="Jane Doe" />
+              <label class="block text-sm font-semibold mb-1 text-white/90">First name</label>
+              <input required name="first_name" type="text" autocomplete="given-name" class="qi" placeholder="Jane" />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Last name</label>
+              <input required name="last_name" type="text" autocomplete="family-name" class="qi" placeholder="Doe" />
             </div>
             <div>
               <label class="block text-sm font-semibold mb-1 text-white/90">Email</label>
-              <input required name="email" type="email" class="qi" placeholder="jane@acme.com" />
+              <input required name="email" type="email" autocomplete="email" class="qi" placeholder="jane@acme.com" />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 text-white/90">Phone</label>
+              <input required name="phone" type="tel" autocomplete="tel" class="qi" placeholder="(555) 123-4567" />
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-semibold mb-1 text-white/90">Company</label>
-              <input required name="company" type="text" class="qi" placeholder="Acme Co." />
+              <input required name="company" type="text" autocomplete="organization" class="qi" placeholder="Acme Co." />
             </div>
           </div>
           <div class="mt-6 flex justify-end">
@@ -689,7 +697,8 @@
         <p class="font-mono text-[11px] uppercase tracking-widest text-brand">Last step</p>
         <p class="mt-1 text-white font-semibold">Pick a time that works — the rest is pre-filled.</p>
       </div>
-      <div id="calendly-embed" class="calendly-inline-widget" data-url="https://calendly.com/jakobeliason/chat?background_color=0A0A0A&text_color=FFFFFF&primary_color=D4AF37&hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:720px;"></div>
+      <!-- NOTE: no 'calendly-inline-widget' class — it's added after the form submits so Calendly doesn't auto-init (and auto-scroll) on page load. -->
+      <div id="calendly-embed" data-url="https://calendly.com/jakobeliason/chat?background_color=0A0A0A&text_color=FFFFFF&primary_color=D4AF37&hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:720px;"></div>
     </div>
 
     <p class="mt-4 text-xs text-ink/60">Backed by our 90-day results guarantee.</p>
@@ -773,7 +782,7 @@
     var totalSteps = steps.length;
     var current = 1;
 
-    function showStep(n) {
+    function showStep(n, shouldFocus) {
       current = n;
       steps.forEach(function (s) {
         s.classList.toggle('hidden', +s.dataset.step !== n);
@@ -784,9 +793,12 @@
         d.classList.toggle('bg-brand', isActive);
         d.classList.toggle('bg-white/20', !isActive);
       });
-      // Focus the first input of the active step
-      var firstInput = form.querySelector('[data-step="' + n + '"] input, [data-step="' + n + '"] select, [data-step="' + n + '"] textarea');
-      if (firstInput) setTimeout(function () { firstInput.focus(); }, 50);
+      // Focus the first input only when navigating between steps — never on initial load
+      // (auto-focus on load would scroll the page to the form).
+      if (shouldFocus) {
+        var firstInput = form.querySelector('[data-step="' + n + '"] input, [data-step="' + n + '"] select, [data-step="' + n + '"] textarea');
+        if (firstInput) setTimeout(function () { firstInput.focus({ preventScroll: true }); }, 50);
+      }
     }
 
     function validateStep(n) {
@@ -809,10 +821,10 @@
       var target = e.target;
       if (target.matches('[data-next]')) {
         e.preventDefault();
-        if (validateStep(current) && current < totalSteps) showStep(current + 1);
+        if (validateStep(current) && current < totalSteps) showStep(current + 1, true);
       } else if (target.matches('[data-prev]')) {
         e.preventDefault();
-        if (current > 1) showStep(current - 1);
+        if (current > 1) showStep(current - 1, true);
       }
     });
 
@@ -854,15 +866,20 @@
       function initCalendly() {
         if (!window.Calendly || !calEmbed) return false;
         calEmbed.innerHTML = '';
+        var fullName = [data.first_name, data.last_name].filter(Boolean).join(' ');
         window.Calendly.initInlineWidget({
           url: calEmbed.getAttribute('data-url'),
           parentElement: calEmbed,
           prefill: {
-            name: data.name || '',
+            name: fullName,
+            firstName: data.first_name || '',
+            lastName: data.last_name || '',
             email: data.email || '',
+            smsReminderNumber: data.phone || '',
             customAnswers: {
               a1: data.company || '',
-              a2: data.pain || ''
+              a2: data.phone || '',
+              a3: data.pain || ''
             }
           }
         });
@@ -881,7 +898,7 @@
       calWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    showStep(1);
+    showStep(1, false);
   })();
 </script>
 
