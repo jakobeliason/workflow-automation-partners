@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Front Desk AI — Automation Partners</title>
+<meta name="description" content="An AI receptionist trained on your business and connected to your calendar. Answers every call after hours, on weekends, during lunch — books real appointments while you focus on the work." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { DEFAULT: '#c9a24b', dark: '#8f7028', soft: '#e6cf8e' },
+          accent: { DEFAULT: '#e6cf8e', soft: '#8f7028' },
+          ink: '#0a0a0a',
+          'ink-deep': '#050505',
+          paper: '#f4efe6',
+          'paper-dim': '#a9a196',
+          'paper-faint': '#5e5850',
+          gold: { DEFAULT: '#c9a24b', deep: '#8f7028', pale: '#e6cf8e' },
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['Archivo', 'Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-deep: #050505;
+    --ink: #f4efe6;
+    --ink-dim: #a9a196;
+    --ink-faint: #5e5850;
+    --gold: #c9a24b;
+    --gold-deep: #8f7028;
+    --gold-pale: #e6cf8e;
+    --rule: rgba(201, 162, 75, 0.22);
+    --rule-faint: rgba(244, 239, 230, 0.08);
+  }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); }
+  .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
+  }
+  h1 { font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 0.95; }
+  h2 { font-weight: 900; text-transform: uppercase; letter-spacing: -0.025em; line-height: 0.98; }
+  h3 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.02; }
+  h4 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .bg-deep { background: var(--bg-deep); }
+  .hairline { border-color: var(--rule-faint); }
+  .hairline-gold { border-color: var(--rule); }
+
+  .hero-vignette {
+    background-image:
+      radial-gradient(ellipse at 50% 60%, rgba(201,162,75,0.10), transparent 55%);
+  }
+
+  /* Pulsing dot used on phone module to show "live" */
+  .pulse-dot {
+    width: 10px; height: 10px;
+    background: #2dd4a4;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 0 rgba(45,212,164,0.6);
+    animation: pulse 1.6s infinite;
+    display: inline-block;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(45,212,164,0.55); }
+    70%  { box-shadow: 0 0 0 10px rgba(45,212,164,0); }
+    100% { box-shadow: 0 0 0 0 rgba(45,212,164,0); }
+  }
+
+  .qbtn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--gold); color: var(--bg);
+    font-family: 'Archivo', 'Inter', sans-serif;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.85rem 1.75rem; border-radius: 2px;
+    transition: background .15s;
+  }
+  .qbtn-primary:hover { background: var(--gold-pale); }
+  .qbtn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--rule); color: var(--ink);
+    font-family: 'Archivo', 'Inter', sans-serif;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.85rem 1.75rem; border-radius: 2px;
+    background: transparent;
+    transition: border-color .15s, color .15s;
+  }
+  .qbtn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+</style>
+</head>
+<body class="bg-ink text-paper antialiased">
+
+<!-- Nav -->
+<header class="sticky top-0 z-40 bg-ink/80 backdrop-blur border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 font-display font-black uppercase text-sm tracking-tight">
+      <span class="inline-block w-3 h-3 bg-gold"></span>
+      <span>Automation Partners</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-paper-dim">
+      <a href="/" class="hover:text-brand">Home</a>
+      <a href="/#services" class="hover:text-brand">Services</a>
+      <a href="/#roi" class="hover:text-brand">ROI Calculator</a>
+      <a href="/#faq" class="hover:text-brand">FAQ</a>
+    </nav>
+    <a href="/#contact" class="qbtn-primary text-xs px-4 py-2">Book a call</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="bg-ink-deep hero-vignette border-b hairline-gold">
+  <div class="max-w-6xl mx-auto px-5 pt-12 pb-16 md:pt-24 md:pb-24">
+    <p class="eyebrow">Automation Partners · Product</p>
+    <h1 class="mt-4 text-5xl md:text-7xl lg:text-8xl">
+      An AI front desk that <span class="text-gold">never goes home.</span>
+    </h1>
+    <p class="mt-8 text-lg md:text-xl text-paper-dim leading-relaxed max-w-3xl">
+      Trained on your business. Connected to your calendar. Answers every call after 5pm, on weekends, during lunch — and books real appointments while you focus on the work.
+    </p>
+
+    <!-- Phone number module -->
+    <!--
+      DEMO PHONE NUMBER
+      Replace the digits below (and the tel: href) with the real Twilio/Vapi/Bland number
+      visitors should call to demo your AI front desk agent.
+    -->
+    <div class="mt-12 border hairline-gold p-7 md:p-12 max-w-3xl">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="pulse-dot"></span>
+        <p class="eyebrow !text-paper-dim" style="color: var(--ink-dim);">Live demo · Available 24/7</p>
+      </div>
+      <a href="tel:+15551234567" class="block font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight hover:text-gold transition leading-none">
+        (555) 123-4567
+      </a>
+      <p class="mt-6 text-paper-dim leading-relaxed max-w-2xl">
+        Pick up your phone and call. Ask about pricing, scheduling a "widget install," or hours — it'll book you into our calendar like a real customer would. Hang up afterward; the demo is on us.
+      </p>
+    </div>
+
+    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+      <a href="#contact" class="qbtn-primary">Book a setup call</a>
+      <a href="#how" class="qbtn-secondary">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- Problem stats -->
+<section class="border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-24">
+    <p class="eyebrow">The math nobody runs</p>
+    <h2 class="mt-4 text-4xl md:text-6xl">Missed calls are missed revenue.</h2>
+    <div class="mt-12 grid md:grid-cols-3 gap-10 md:gap-12">
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">62%</div>
+        <p class="mt-4 text-paper-dim">of calls to small businesses go to voicemail outside business hours.</p>
+      </div>
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">85%</div>
+        <p class="mt-4 text-paper-dim">of customers won't leave a voicemail. They just call the next business on the list.</p>
+      </div>
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">$1,200+</div>
+        <p class="mt-4 text-paper-dim">average lifetime value of a single missed lead in a service business.</p>
+      </div>
+    </div>
+    <p class="mt-10 text-sm text-paper-faint max-w-3xl">Industry estimates. Your numbers are probably worse than you think — most owners haven't run the math because they can't see what they're missing.</p>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="how" class="border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-24">
+    <p class="eyebrow">How it works</p>
+    <h2 class="mt-4 text-4xl md:text-6xl">Built for your business. Not a generic bot.</h2>
+
+    <div class="mt-16 grid md:grid-cols-3 gap-x-10 lg:gap-x-16 gap-y-14">
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">01</div>
+        <h3 class="mt-5 text-2xl">Trained on your operation.</h3>
+        <p class="mt-3 text-paper-dim leading-relaxed">We feed it your services, pricing, FAQs, hours, and the way your team actually answers the phone. It sounds like you — not a script-reading robot.</p>
+      </div>
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">02</div>
+        <h3 class="mt-5 text-2xl">Wired to your calendar.</h3>
+        <p class="mt-3 text-paper-dim leading-relaxed">Connects to Google Calendar, Outlook, HubSpot, ServiceTitan, Jobber, Housecall Pro — whatever you run. Books real appointments live, in real time.</p>
+      </div>
+      <div>
+        <div class="font-display font-black text-6xl text-gold leading-none">03</div>
+        <h3 class="mt-5 text-2xl">Sends you the receipts.</h3>
+        <p class="mt-3 text-paper-dim leading-relaxed">Every call gets a transcript, a summary, and the recommended next step — delivered to email, Slack, or your CRM. Nothing falls through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What it answers -->
+<section class="border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-24">
+    <p class="eyebrow">What it handles</p>
+    <h2 class="mt-4 text-4xl md:text-6xl">Every call. Every time. Every hour.</h2>
+
+    <div class="mt-12 grid md:grid-cols-2 gap-px bg-paper/[0.08]">
+      <div class="bg-ink p-7 md:p-9">
+        <p class="eyebrow">After hours</p>
+        <h3 class="mt-3 text-xl">"Do you guys handle weekend emergencies?"</h3>
+        <p class="mt-4 text-paper-dim leading-relaxed">Qualifies the lead, looks up your weekend availability, books the appointment, sends a text confirmation. You wake up to a calendar full of real jobs.</p>
+      </div>
+      <div class="bg-ink p-7 md:p-9">
+        <p class="eyebrow">Existing customers</p>
+        <h3 class="mt-3 text-xl">"This is Linda. I need to reschedule my Thursday appointment."</h3>
+        <p class="mt-4 text-paper-dim leading-relaxed">Pulls Linda's record from your CRM, offers open slots, reschedules the visit, and texts the confirmation — without human intervention.</p>
+      </div>
+      <div class="bg-ink p-7 md:p-9">
+        <p class="eyebrow">FAQ overflow</p>
+        <h3 class="mt-3 text-xl">"How much for a kitchen install? Do you service Brentwood?"</h3>
+        <p class="mt-4 text-paper-dim leading-relaxed">Answers from your trained pricing and service-area data, then offers a free estimate slot before the caller hangs up.</p>
+      </div>
+      <div class="bg-ink p-7 md:p-9">
+        <p class="eyebrow">Urgent escalation</p>
+        <h3 class="mt-3 text-xl">"My pipe just burst — I need someone now."</h3>
+        <p class="mt-4 text-paper-dim leading-relaxed">Recognizes urgency, attempts to reach the on-call tech, texts you live, and books backup if no one picks up. No emergency slips through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Integrations -->
+<section class="border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 py-16">
+    <p class="eyebrow text-center block">Plays nice with your stack</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-2 max-w-5xl mx-auto">
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Google Calendar</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Outlook</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">HubSpot</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Salesforce</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">ServiceTitan</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Jobber</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Housecall Pro</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Calendly</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Acuity</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Twilio</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Slack</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Zapier</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Make</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">QuickBooks</span>
+      <span class="px-3 py-1.5 border hairline text-sm text-paper-dim">Stripe</span>
+    </div>
+    <p class="mt-6 text-center text-xs text-paper-faint font-mono uppercase tracking-widest">…and anything else with an API.</p>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="border-b hairline">
+  <div class="max-w-5xl mx-auto px-5 py-20 md:py-24">
+    <p class="eyebrow">Pricing</p>
+    <h2 class="mt-4 text-4xl md:text-6xl">Two ways to deploy.</h2>
+
+    <div class="mt-12 grid md:grid-cols-2 gap-8">
+      <div class="border hairline p-8">
+        <h3 class="text-2xl">Standard</h3>
+        <p class="mt-2 text-paper-dim">Most service businesses fit here.</p>
+        <p class="mt-8 font-display font-black text-6xl text-gold leading-none">$2,500</p>
+        <p class="mt-2 text-sm text-paper-faint font-mono uppercase tracking-widest">setup · one-time</p>
+        <p class="mt-8 font-display font-black text-4xl text-gold leading-none">+ $399<span class="text-2xl">/mo</span></p>
+        <p class="mt-2 text-sm text-paper-faint font-mono uppercase tracking-widest">includes 500 calls / month</p>
+        <ul class="mt-8 space-y-3 text-paper-dim">
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Trained on your business, scripts, FAQs</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Calendar + CRM integration</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Call summaries to email or Slack</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Forwarding from your existing line</span></li>
+        </ul>
+      </div>
+
+      <div class="border hairline-gold p-8 relative">
+        <div class="absolute -top-px right-0 px-3 py-1 bg-gold text-ink font-display font-bold text-xs uppercase tracking-widest">Custom</div>
+        <h3 class="mt-2 text-2xl">High-volume / Multi-location</h3>
+        <p class="mt-2 text-paper-dim">For shops doing 1,000+ calls a month or running multiple locations.</p>
+        <p class="mt-8 font-display font-black text-4xl text-gold leading-none">From $899<span class="text-2xl">/mo</span></p>
+        <p class="mt-2 text-sm text-paper-faint font-mono uppercase tracking-widest">scoped per business</p>
+        <ul class="mt-8 space-y-3 text-paper-dim">
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Everything in Standard</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Multi-location call routing</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Dedicated number per location</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Custom voice (your choice or recorded)</span></li>
+          <li class="flex gap-3"><span class="text-gold">▸</span><span>Monthly call-review session with our team</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 text-sm text-paper-faint">Pricing reflects typical engagements. Final scope and fee set after the setup call.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="bg-ink-deep border-t hairline-gold">
+  <div class="max-w-3xl mx-auto px-5 py-20 md:py-28 text-center">
+    <p class="eyebrow">Get started</p>
+    <h2 class="mt-4 text-4xl md:text-6xl">Stop missing calls. <span class="text-gold">Start booking them.</span></h2>
+    <p class="mt-6 text-lg text-paper-dim leading-relaxed max-w-2xl mx-auto">
+      Book a 30-minute setup call. We'll learn how your phone gets handled today, demo it on your existing flow, and quote you a setup. Or call the demo number first and hear it for yourself.
+    </p>
+    <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a href="tel:+15551234567" class="qbtn-secondary">Call the demo first</a>
+      <a href="/#contact" class="qbtn-primary">Book a setup call</a>
+    </div>
+    <p class="mt-8 text-xs text-paper-faint uppercase tracking-widest font-mono">Backed by our 90-day results guarantee</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-ink text-paper-dim">
+  <div class="max-w-6xl mx-auto px-5 py-12 grid md:grid-cols-4 gap-8 text-sm">
+    <div class="md:col-span-2">
+      <a href="/" class="flex items-center gap-3 font-display font-black uppercase text-base tracking-tight text-paper">
+        <span class="inline-block w-3 h-3 bg-gold"></span>
+        <span>Automation Partners</span>
+      </a>
+      <p class="mt-4 max-w-sm">Intelligent automation for service businesses. Workflow automation, AI implementation, and custom applications. One partner. Measurable ROI. 90-day guarantee.</p>
+    </div>
+    <div>
+      <div class="font-semibold text-paper">Products</div>
+      <ul class="mt-2 space-y-1">
+        <li><a href="/front-desk-ai/" class="hover:text-paper">Front Desk AI</a></li>
+        <li><a href="/#services" class="hover:text-paper">Workflow Automation</a></li>
+        <li><a href="/#services" class="hover:text-paper">AI Implementation</a></li>
+        <li><a href="/#services" class="hover:text-paper">Custom Applications</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="font-semibold text-paper">Contact</div>
+      <p class="mt-2">Nationwide</p>
+      <p><a href="mailto:hello@automationpartners.com" class="hover:text-paper">hello@automationpartners.com</a></p>
+      <p class="mt-3"><a href="/#contact" class="hover:text-paper font-semibold">Book a call →</a></p>
+    </div>
+  </div>
+  <div class="border-t hairline">
+    <div class="max-w-6xl mx-auto px-5 py-5 text-xs text-paper-faint flex flex-col md:flex-row gap-2 justify-between">
+      <span>© 2026 Automation Partners. All rights reserved.</span>
+      <span>Nationwide</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

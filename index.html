@@ -110,6 +110,34 @@
   .hairline { border-color: var(--rule-faint); }
   .hairline-gold { border-color: var(--rule); }
 
+  /* ROI calculator sliders — square gold thumb on hairline track */
+  .roi-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    background: var(--rule-faint);
+    outline: none;
+    cursor: pointer;
+  }
+  .roi-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px; height: 18px;
+    background: var(--gold);
+    border: 0;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  .roi-slider::-moz-range-thumb {
+    width: 18px; height: 18px;
+    background: var(--gold);
+    border: 0;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  .roi-slider::-webkit-slider-thumb:hover { background: var(--gold-pale); }
+  .roi-slider:focus { outline: 1px solid var(--gold); outline-offset: 4px; }
+
   /* VSL center play button — Vimeo-style translucent overlay */
   .vsl-center-play {
     width: 64px;
@@ -214,7 +242,8 @@
     </a>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-paper-dim">
       <a href="#services" class="hover:text-brand">Services</a>
-      <a href="#results" class="hover:text-brand">Results</a>
+      <a href="#roi" class="hover:text-brand">ROI Calculator</a>
+      <a href="/front-desk-ai/" class="hover:text-brand">Front Desk AI</a>
       <a href="#process" class="hover:text-brand">Process</a>
       <a href="#faq" class="hover:text-brand">FAQ</a>
     </nav>
@@ -574,6 +603,95 @@
   </div>
 </section>
 
+<!-- ROI Calculator -->
+<section id="roi" class="bg-ink border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 py-24">
+    <div class="max-w-2xl">
+      <p class="eyebrow">ROI Calculator</p>
+      <h2 class="mt-4 text-4xl md:text-6xl">Do the math.</h2>
+      <p class="mt-6 text-lg text-paper-dim leading-relaxed">Plug in a task your team does today. See what automating it would actually save you in time and dollars.</p>
+    </div>
+
+    <div class="mt-16 grid lg:grid-cols-2 gap-10 lg:gap-16">
+      <!-- Inputs -->
+      <div class="space-y-8">
+        <div>
+          <label class="eyebrow block mb-3" for="roi-task">Task type</label>
+          <select id="roi-task" class="qi qselect">
+            <option value="support">Customer support / email triage</option>
+            <option value="proposals">Quote / proposal generation</option>
+            <option value="invoicing">Invoicing &amp; follow-up</option>
+            <option value="scheduling">Scheduling &amp; confirmations</option>
+            <option value="reporting">Reporting &amp; data entry</option>
+            <option value="onboarding">Client onboarding</option>
+            <option value="custom">Other / custom</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <label class="eyebrow" for="roi-mins">Minutes per instance</label>
+            <span id="roi-mins-display" class="font-display font-black text-2xl text-gold">15</span>
+          </div>
+          <input id="roi-mins" type="range" min="1" max="180" value="15" class="roi-slider w-full" />
+        </div>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <label class="eyebrow" for="roi-freq">How often per week</label>
+            <span id="roi-freq-display" class="font-display font-black text-2xl text-gold">80</span>
+          </div>
+          <input id="roi-freq" type="range" min="1" max="500" value="80" class="roi-slider w-full" />
+        </div>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <label class="eyebrow" for="roi-rate">Loaded hourly cost</label>
+            <span id="roi-rate-display" class="font-display font-black text-2xl text-gold">$50</span>
+          </div>
+          <input id="roi-rate" type="range" min="20" max="200" value="50" step="5" class="roi-slider w-full" />
+        </div>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <label class="eyebrow" for="roi-auto">% automated</label>
+            <span id="roi-auto-display" class="font-display font-black text-2xl text-gold">80%</span>
+          </div>
+          <input id="roi-auto" type="range" min="40" max="95" value="80" step="5" class="roi-slider w-full" />
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="border hairline-gold p-8 md:p-10 self-start">
+        <p class="eyebrow">Estimated annual savings</p>
+        <p id="roi-money" class="font-display font-black text-6xl md:text-7xl lg:text-8xl text-gold leading-none mt-4 break-all">$0</p>
+
+        <div class="grid grid-cols-2 gap-6 mt-12 pt-8 border-t hairline">
+          <div>
+            <p class="eyebrow">Hours / week</p>
+            <p id="roi-hours-week" class="font-display font-black text-3xl md:text-4xl text-paper mt-2">0</p>
+          </div>
+          <div>
+            <p class="eyebrow">Hours / year</p>
+            <p id="roi-hours-year" class="font-display font-black text-3xl md:text-4xl text-paper mt-2">0</p>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-8 border-t hairline">
+          <p class="eyebrow">Year-1 ROI vs. typical $15k engagement</p>
+          <p id="roi-multiple" class="font-display font-black text-3xl md:text-4xl text-paper mt-2">0×</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-8 text-sm text-paper-faint max-w-3xl">Estimates assume eliminated manual time, applied across 50 working weeks. Real numbers depend on the diagnostic — we sharpen these for your specific business in the first call.</p>
+
+    <div class="mt-10">
+      <a href="#contact" class="qbtn-primary">See what we'd do for your business</a>
+    </div>
+  </div>
+</section>
+
 <!-- Process -->
 <section id="process" class="bg-ink text-paper">
   <div class="max-w-6xl mx-auto px-5 py-20">
@@ -864,6 +982,54 @@
 
 <!-- Calendly widget script (loads async, required for inline embed) -->
 <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<!-- ROI Calculator -->
+<script>
+  (function () {
+    var presets = {
+      support:    { mins: 8,  freq: 100, rate: 45, auto: 85 },
+      proposals:  { mins: 90, freq: 8,   rate: 60, auto: 75 },
+      invoicing:  { mins: 12, freq: 40,  rate: 50, auto: 90 },
+      scheduling: { mins: 6,  freq: 60,  rate: 35, auto: 90 },
+      reporting:  { mins: 30, freq: 20,  rate: 55, auto: 85 },
+      onboarding: { mins: 45, freq: 6,   rate: 60, auto: 70 },
+      custom:     { mins: 15, freq: 80,  rate: 50, auto: 80 },
+    };
+    var $ = function (id) { return document.getElementById(id); };
+    var task = $('roi-task'),
+        mins = $('roi-mins'), freq = $('roi-freq'),
+        rate = $('roi-rate'), auto = $('roi-auto');
+    if (!task) return;
+
+    function fmt(n) { return Math.round(n).toLocaleString(); }
+    function compute() {
+      var m = +mins.value, f = +freq.value, r = +rate.value, a = +auto.value / 100;
+      var hoursPerWeek = (m * f * a) / 60;
+      var hoursPerYear = hoursPerWeek * 50;
+      var moneyPerYear = hoursPerYear * r;
+      var roiX = moneyPerYear / 15000;
+
+      $('roi-mins-display').textContent = m;
+      $('roi-freq-display').textContent = f;
+      $('roi-rate-display').textContent = '$' + r;
+      $('roi-auto-display').textContent = (a * 100) + '%';
+      $('roi-money').textContent = '$' + fmt(moneyPerYear);
+      $('roi-hours-week').textContent = fmt(hoursPerWeek);
+      $('roi-hours-year').textContent = fmt(hoursPerYear);
+      $('roi-multiple').textContent = roiX.toFixed(1) + '×';
+    }
+    function applyPreset() {
+      var p = presets[task.value]; if (!p) return;
+      mins.value = p.mins; freq.value = p.freq; rate.value = p.rate; auto.value = p.auto;
+      compute();
+    }
+    task.addEventListener('change', applyPreset);
+    [mins, freq, rate, auto].forEach(function (el) {
+      el.addEventListener('input', function () { task.value = 'custom'; compute(); });
+    });
+    applyPreset(); // initialize with default preset
+  })();
+</script>
 
 <!-- VSL play handler -->
 <script>
